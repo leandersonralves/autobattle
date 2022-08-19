@@ -47,9 +47,6 @@ namespace AutoBattle
             if (CheckCloseTargets(battlefield)) 
             {
                 Attack(Target);
-                
-
-                return;
             }
             else
             {   // if there is no target close enough, calculates in wich direction this character should move to be closer to a possible target
@@ -64,16 +61,14 @@ namespace AutoBattle
                         battlefield.grids[currentBox.Index] = currentBox;
                         Console.WriteLine($"Player {PlayerIndex} walked left\n");
                         battlefield.drawBattlefield(5, 5);
-
-                        return;
                     }
-                } else if(currentBox.xIndex < Target.currentBox.xIndex)
+                }
+                else if(currentBox.xIndex < Target.currentBox.xIndex)
                 {
                     currentBox.ocupied = false;
                     battlefield.grids[currentBox.Index] = currentBox;
                     currentBox = (battlefield.grids.Find(x => x.Index == currentBox.Index + 1));
                     currentBox.ocupied = true;
-                    return;
                     battlefield.grids[currentBox.Index] = currentBox;
                     Console.WriteLine($"Player {PlayerIndex} walked right\n");
                     battlefield.drawBattlefield(5, 5);
@@ -88,7 +83,6 @@ namespace AutoBattle
                     this.currentBox.ocupied = true;
                     battlefield.grids[currentBox.Index] = currentBox;
                     Console.WriteLine($"Player {PlayerIndex} walked up\n");
-                    return;
                 }
                 else if(this.currentBox.yIndex < Target.currentBox.yIndex)
                 {
@@ -99,8 +93,6 @@ namespace AutoBattle
                     battlefield.grids[currentBox.Index] = currentBox;
                     Console.WriteLine($"Player {PlayerIndex} walked down\n");
                     battlefield.drawBattlefield(5, 5);
-
-                    return;
                 }
             }
         }
@@ -122,7 +114,7 @@ namespace AutoBattle
 
         public void Attack (Character target)
         {
-            var rand = new Random();
+            Random rand = new Random();
             target.TakeDamage(rand.Next(0, (int)BaseDamage));
             Console.WriteLine($"Player {PlayerIndex} is attacking the player {Target.PlayerIndex} and did {BaseDamage} damage\n");
         }
