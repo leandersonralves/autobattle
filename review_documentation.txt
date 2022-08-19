@@ -1,0 +1,8 @@
+1º Step - Logic errors and formatation.
+Removed unnecessary returns.
+Breaklines fixes.
+Removed unnecessary files Character.cs Grid.cs in root.
+
+2² Step - Architecture System
+Moved some functions related gameplay system to a exclusive class, GameSystem.cs
+Moved some functions related to Input player to a exclusive class, Input.cs.

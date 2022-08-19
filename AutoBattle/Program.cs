@@ -20,6 +20,7 @@ namespace AutoBattle
             List<Character> AllPlayers = new List<Character>();
             int currentTurn = 0;
             int numberOfPossibleTiles = grid.grids.Count;
+
             Setup(); 
 
             void Setup()
