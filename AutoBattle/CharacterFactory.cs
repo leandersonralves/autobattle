@@ -1,5 +1,4 @@
-﻿
-using AutoBattle.Characters;
+﻿using AutoBattle.Characters;
 
 namespace AutoBattle.Factory
 {
@@ -20,6 +19,7 @@ namespace AutoBattle.Factory
 
                 case CharacterClass.Warrior:
                     return new Warrior(indexPlayer);
+
                 default:
                     throw new System.NotImplementedException($"Character Class { charClass } not implemented.");
             }

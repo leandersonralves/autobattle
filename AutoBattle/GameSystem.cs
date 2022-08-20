@@ -114,13 +114,12 @@ namespace AutoBattle
         private void AlocatePlayerCharacter()
         {
             int random = Utils.GetRandomInt(0, grid.AmountCount);
-            GridBox RandomLocation = (grid.grids.ElementAt(random));
+            GridBox randomLocation = (grid.grids.ElementAt(random));
             Console.Write($"{random}\n");
-            if (!RandomLocation.ocupied)
+            if (!randomLocation.ocupied)
             {
-                GridBox PlayerCurrentLocation = RandomLocation;
-                RandomLocation.ocupied = true;
-                grid.grids[random] = RandomLocation;
+                randomLocation.ocupied = true;
+                grid.grids[random] = randomLocation;
                 PlayerCharacter.currentBox = grid.grids[random];
                 AlocateEnemyCharacter();
             }
@@ -133,12 +132,12 @@ namespace AutoBattle
         private void AlocateEnemyCharacter()
         {
             int random = Utils.GetRandomInt(0, grid.AmountCount);
-            GridBox RandomLocation = (grid.grids.ElementAt(random));
+            GridBox randomLocation = (grid.grids.ElementAt(random));
             Console.Write($"{random}\n");
-            if (!RandomLocation.ocupied)
+            if (!randomLocation.ocupied)
             {
-                RandomLocation.ocupied = true;
-                grid.grids[random] = RandomLocation;
+                randomLocation.ocupied = true;
+                grid.grids[random] = randomLocation;
                 EnemyCharacter.currentBox = grid.grids[random];
                 grid.DrawBattlefield();
             }
