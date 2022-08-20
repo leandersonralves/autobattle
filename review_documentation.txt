@@ -6,8 +6,9 @@ Added access modifiers in variables, class and functions. Avoid use implicit dec
 Removed \n in writeline to choose class.
 Removed a switch statement to create PlayerCharacter, instead parse input to an int and check if is between [min, max].
 Started function name with capital case in function DrawBattlefield.
-
-
+Variables starting with lower case. (arguments in constructor of Grid)
+Removed unused variables playerCharacterClass, PlayerCurrentLocation and EnemyCurrentLocation from Program.cs.
+Removed $ from Write where dont need a special format, optimization.
 
 - Architecture System
 Changed type of AutoBattle.Type from class to namespace.
@@ -18,3 +19,5 @@ Moved some functions related to Input player to a exclusive class, InputSystem.c
 
 Moved GetRandomInt to a class Utils.cs and used this where get a random.
 Removed some functions calls nested to decrease stack.
+Removed arguments lines and columns from function DrawBattlefield, now draw whole field.
+Added a GridsCount property instead use property .Count from List<Grid>.

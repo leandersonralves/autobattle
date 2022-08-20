@@ -8,19 +8,14 @@ namespace AutoBattle
     public class GameSystem
     {
         private Grid grid;
-        private CharacterClass playerCharacterClass;
-        private GridBox PlayerCurrentLocation;
-        private GridBox EnemyCurrentLocation;
         private Character PlayerCharacter;
         private Character EnemyCharacter;
         private List<Character> AllPlayers = new List<Character>();
-        private int numberOfPossibleTiles = 0;
         private bool firstTurn = true;
 
         public GameSystem (int height, int width)
         {
             grid = new Grid(width, height);
-            numberOfPossibleTiles = grid.grids.Count;
             firstTurn = true;
         }
 
@@ -123,7 +118,7 @@ namespace AutoBattle
 
         private void AlocatePlayerCharacter()
         {
-            int random = Utils.GetRandomInt(0, numberOfPossibleTiles);
+            int random = Utils.GetRandomInt(0, grid.AmountCount);
             GridBox RandomLocation = (grid.grids.ElementAt(random));
             Console.Write($"{random}\n");
             if (!RandomLocation.ocupied)
@@ -142,16 +137,15 @@ namespace AutoBattle
 
         private void AlocateEnemyCharacter()
         {
-            int random = Utils.GetRandomInt(0, numberOfPossibleTiles);
+            int random = Utils.GetRandomInt(0, grid.AmountCount);
             GridBox RandomLocation = (grid.grids.ElementAt(random));
             Console.Write($"{random}\n");
             if (!RandomLocation.ocupied)
             {
-                EnemyCurrentLocation = RandomLocation;
                 RandomLocation.ocupied = true;
                 grid.grids[random] = RandomLocation;
                 EnemyCharacter.currentBox = grid.grids[random];
-                grid.DrawBattlefield(5, 5);
+                grid.DrawBattlefield();
             }
             else
             {

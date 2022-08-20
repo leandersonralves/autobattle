@@ -40,13 +40,13 @@ namespace AutoBattle
 
         public void StartTurn(Grid battlefield)
         {
-
             if (CheckCloseTargets(battlefield)) 
             {
                 Attack(Target);
             }
             else
-            {   // if there is no target close enough, calculates in wich direction this character should move to be closer to a possible target
+            {
+                // if there is no target close enough, calculates in wich direction this character should move to be closer to a possible target
                 if(this.currentBox.xIndex > Target.currentBox.xIndex)
                 {
                     if ((battlefield.grids.Exists(x => x.Index == currentBox.Index - 1)))
@@ -57,7 +57,7 @@ namespace AutoBattle
                         currentBox.ocupied = true;
                         battlefield.grids[currentBox.Index] = currentBox;
                         Console.WriteLine($"Player {PlayerIndex} walked left\n");
-                        battlefield.DrawBattlefield(5, 5);
+                        battlefield.DrawBattlefield();
                     }
                 }
                 else if(currentBox.xIndex < Target.currentBox.xIndex)
@@ -68,12 +68,12 @@ namespace AutoBattle
                     currentBox.ocupied = true;
                     battlefield.grids[currentBox.Index] = currentBox;
                     Console.WriteLine($"Player {PlayerIndex} walked right\n");
-                    battlefield.DrawBattlefield(5, 5);
+                    battlefield.DrawBattlefield();
                 }
 
                 if (this.currentBox.yIndex > Target.currentBox.yIndex)
                 {
-                    battlefield.DrawBattlefield(5, 5);
+                    battlefield.DrawBattlefield();
                     this.currentBox.ocupied = false;
                     battlefield.grids[currentBox.Index] = currentBox;
                     this.currentBox = (battlefield.grids.Find(x => x.Index == currentBox.Index - battlefield.xLenght));
@@ -89,7 +89,7 @@ namespace AutoBattle
                     this.currentBox.ocupied = false;
                     battlefield.grids[currentBox.Index] = currentBox;
                     Console.WriteLine($"Player {PlayerIndex} walked down\n");
-                    battlefield.DrawBattlefield(5, 5);
+                    battlefield.DrawBattlefield();
                 }
             }
         }
