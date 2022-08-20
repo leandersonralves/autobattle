@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
-using static AutoBattle.Types;
+using AutoBattle.Types;
 
 namespace AutoBattle
 {
@@ -28,7 +28,7 @@ namespace AutoBattle
         }
 
         // prints the matrix that indicates the tiles of the battlefield
-        public void drawBattlefield(int Lines, int Columns)
+        public void DrawBattlefield(int Lines, int Columns)
         {
             for (int i = 0; i < Lines; i++)
             {

@@ -1,8 +1,20 @@
-1º Step - Logic errors and formatation.
+- Logic errors, formatation and best practices.
 Removed unnecessary returns.
 Breaklines fixes.
 Removed unnecessary files Character.cs Grid.cs in root.
+Added access modifiers in variables, class and functions. Avoid use implicit declaration.
+Removed \n in writeline to choose class.
+Removed a switch statement to create PlayerCharacter, instead parse input to an int and check if is between [min, max].
+Started function name with capital case in function DrawBattlefield.
 
-2² Step - Architecture System
+
+
+- Architecture System
+Changed type of AutoBattle.Type from class to namespace.
 Moved some functions related gameplay system to a exclusive class, GameSystem.cs
-Moved some functions related to Input player to a exclusive class, Input.cs.
+
+Moved some functions related to Input player to a exclusive class, InputSystem.cs.
+	Added in InputSystem.cs functions specific to read number, string, and etc.
+
+Moved GetRandomInt to a class Utils.cs and used this where get a random.
+Removed some functions calls nested to decrease stack.

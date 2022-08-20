@@ -4,7 +4,7 @@ using System.Text;
 
 namespace AutoBattle
 {
-    public class Types
+    namespace Types
     {
         public struct CharacterClassSpecific
         {
