@@ -1,22 +1,25 @@
 ﻿using System;
 using AutoBattle.Types;
 
-namespace AutoBattle
+namespace AutoBattle.Characters
 {
-    public class Character
+    public enum CharacterClass : uint
     {
-        public string Name { get; set; }
-        public float Health;
-        public float BaseDamage;
-        public float DamageMultiplier { get; set; }
+        Paladin = 1,
+        Warrior = 2,
+        Cleric = 3,
+        Archer = 4
+    }
+
+    public abstract class Character
+    {
+        public abstract string Name { get; }
+        public abstract float Health { get; protected set; }
+        public abstract float BaseDamage { get; protected set; }
+        public abstract float DamageMultiplier { get; protected set; }
         public GridBox currentBox;
-        public int PlayerIndex;
-        public Character Target { get; set; } 
-        public Character(CharacterClass characterClass)
-        {
-
-        }
-
+        public int PlayerIndex { get; protected set; }
+        public Character Target { get; set; }
 
         public bool TakeDamage(float amount)
         {
@@ -114,6 +117,66 @@ namespace AutoBattle
             Random rand = new Random();
             target.TakeDamage(rand.Next(0, (int)BaseDamage));
             Console.WriteLine($"Player {PlayerIndex} is attacking the player {Target.PlayerIndex} and did {BaseDamage} damage\n");
+        }
+    }
+
+    public class Paladin : Character
+    {
+        public override string Name { get => "Paladin"; }
+        public override float Health { get; protected set; }
+        public override float BaseDamage { get; protected set; }
+        public override float DamageMultiplier { get; protected set; }
+
+        public Paladin (int playerIndex)
+        {
+            PlayerIndex = playerIndex;
+            Health = 100f;
+            BaseDamage = 20f;
+        }
+    }
+
+    public class Warrior : Character
+    {
+        public override string Name { get => "Warrior"; }
+        public override float Health { get; protected set; }
+        public override float BaseDamage { get; protected set; }
+        public override float DamageMultiplier { get; protected set; }
+
+        public Warrior(int playerIndex)
+        {
+            PlayerIndex = playerIndex;
+            Health = 100f;
+            BaseDamage = 20f;
+        }
+    }
+
+    public class Cleric : Character
+    {
+        public override string Name { get => "Cleric"; }
+        public override float Health { get; protected set; }
+        public override float BaseDamage { get; protected set; }
+        public override float DamageMultiplier { get; protected set; }
+
+        public Cleric(int playerIndex)
+        {
+            PlayerIndex = playerIndex;
+            Health = 100f;
+            BaseDamage = 20f;
+        }
+    }
+
+    public class Archer : Character
+    {
+        public override string Name { get => "Archer"; }
+        public override float Health { get; protected set; }
+        public override float BaseDamage { get; protected set; }
+        public override float DamageMultiplier { get; protected set; }
+
+        public Archer(int playerIndex)
+        {
+            PlayerIndex = playerIndex;
+            Health = 100f;
+            BaseDamage = 20f;
         }
     }
 }

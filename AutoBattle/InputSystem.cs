@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace AutoBattle
 {
-    class InputSystem
+    public class InputSystem
     {
         public static int ReadInt (string messageInvalid)
         {

@@ -11,6 +11,10 @@ Removed unused variables playerCharacterClass, PlayerCurrentLocation and EnemyCu
 Removed $ from Write where dont need a special format, optimization.
 
 - Architecture System
+Implemented Factory Design Pattern to Characters/Class.
+  Encapsulated some properties from Character that makes sense to be defined only in instantiation.
+
+
 Changed type of AutoBattle.Type from class to namespace.
 Moved some functions related gameplay system to a exclusive class, GameSystem.cs
 

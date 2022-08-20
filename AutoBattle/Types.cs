@@ -1,48 +1,35 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using AutoBattle.Characters;
 
-namespace AutoBattle
+namespace AutoBattle.Types
 {
-    namespace Types
+    public struct CharacterClassSpecific
     {
-        public struct CharacterClassSpecific
-        {
-            CharacterClass CharacterClass;
-            float hpModifier;
-            float ClassDamage;
-            CharacterSkills[] skills;
-        }
+        CharacterClass CharacterClass;
+        float hpModifier;
+        float ClassDamage;
+        CharacterSkills[] skills;
+    }
 
-        public struct GridBox
-        {
-            public int xIndex;
-            public int yIndex;
-            public bool ocupied;
-            public int Index;
+    public struct GridBox
+    {
+        public int xIndex;
+        public int yIndex;
+        public bool ocupied;
+        public int Index;
 
-            public GridBox(int x, int y, bool ocupied, int index)
-            {
-                xIndex = x;
-                yIndex = y;
-                this.ocupied = ocupied;
-                this.Index = index;
-            }
-        }
-
-        public struct CharacterSkills
+        public GridBox(int x, int y, bool ocupied, int index)
         {
-            string Name;
-            float damage;
-            float damageMultiplier;
+            xIndex = x;
+            yIndex = y;
+            this.ocupied = ocupied;
+            this.Index = index;
         }
+    }
 
-        public enum CharacterClass : uint
-        {
-            Paladin = 1,
-            Warrior = 2,
-            Cleric = 3,
-            Archer = 4
-        }
+    public struct CharacterSkills
+    {
+        string Name;
+        float damage;
+        float damageMultiplier;
     }
 }

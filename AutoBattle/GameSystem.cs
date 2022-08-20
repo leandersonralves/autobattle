@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using AutoBattle.Types;
+using AutoBattle.Characters;
 
 namespace AutoBattle
 {
@@ -42,10 +43,7 @@ namespace AutoBattle
         {
             CharacterClass characterClass = (CharacterClass)classIndex;
             Console.WriteLine($"Player Class Choice: {characterClass}");
-            PlayerCharacter = new Character(characterClass);
-            PlayerCharacter.Health = 100;
-            PlayerCharacter.BaseDamage = 20;
-            PlayerCharacter.PlayerIndex = 0;
+            PlayerCharacter = Factory.CharacterFactory.InstantiateCharacter(0, characterClass);
         }
 
         private void CreateEnemyCharacter()
@@ -54,10 +52,7 @@ namespace AutoBattle
             int rand = Utils.GetRandomInt(1, 4);
             CharacterClass enemyClass = (CharacterClass)rand;
             Console.WriteLine($"Enemy Class Choice: {enemyClass}");
-            EnemyCharacter = new Character(enemyClass);
-            EnemyCharacter.Health = 100;
-            PlayerCharacter.BaseDamage = 20;
-            PlayerCharacter.PlayerIndex = 1;
+            EnemyCharacter = Factory.CharacterFactory.InstantiateCharacter(1, enemyClass);
         }
 
         private void StartGame()
