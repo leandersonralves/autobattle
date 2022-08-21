@@ -49,10 +49,14 @@ namespace AutoBattle.Characters
             }
             else
             {
-                // if there is no target close enough, calculates in wich direction this character should move to be closer to a possible target
-                if(this.currentBox.xIndex > Target.currentBox.xIndex)
+                float distX = currentBox.xIndex - Target.currentBox.xIndex;
+                float distY = currentBox.yIndex - Target.currentBox.yIndex;
+
+                //priorizing movement in axis more closer.
+                if (Math.Abs(distX) < Math.Abs(distY))
                 {
-                    if ((battlefield.grids.Exists(x => x.Index == currentBox.Index - 1)))
+                    // if there is no target close enough, calculates in wich direction this character should move to be closer to a possible target
+                    if (currentBox.xIndex > Target.currentBox.xIndex)
                     {
                         currentBox.ocupied = false;
                         battlefield.grids[currentBox.Index] = currentBox;
@@ -62,37 +66,39 @@ namespace AutoBattle.Characters
                         Console.WriteLine($"Player {PlayerIndex} walked left\n");
                         battlefield.DrawBattlefield();
                     }
+                    else if (currentBox.xIndex < Target.currentBox.xIndex)
+                    {
+                        currentBox.ocupied = false;
+                        battlefield.grids[currentBox.Index] = currentBox;
+                        currentBox = (battlefield.grids.Find(x => x.Index == currentBox.Index + 1));
+                        currentBox.ocupied = true;
+                        battlefield.grids[currentBox.Index] = currentBox;
+                        Console.WriteLine($"Player {PlayerIndex} walked right\n");
+                        battlefield.DrawBattlefield();
+                    }
                 }
-                else if(currentBox.xIndex < Target.currentBox.xIndex)
+                else
                 {
-                    currentBox.ocupied = false;
-                    battlefield.grids[currentBox.Index] = currentBox;
-                    currentBox = (battlefield.grids.Find(x => x.Index == currentBox.Index + 1));
-                    currentBox.ocupied = true;
-                    battlefield.grids[currentBox.Index] = currentBox;
-                    Console.WriteLine($"Player {PlayerIndex} walked right\n");
-                    battlefield.DrawBattlefield();
-                }
-
-                if (this.currentBox.yIndex > Target.currentBox.yIndex)
-                {
-                    battlefield.DrawBattlefield();
-                    this.currentBox.ocupied = false;
-                    battlefield.grids[currentBox.Index] = currentBox;
-                    this.currentBox = (battlefield.grids.Find(x => x.Index == currentBox.Index - battlefield.xLenght));
-                    this.currentBox.ocupied = true;
-                    battlefield.grids[currentBox.Index] = currentBox;
-                    Console.WriteLine($"Player {PlayerIndex} walked up\n");
-                }
-                else if(this.currentBox.yIndex < Target.currentBox.yIndex)
-                {
-                    this.currentBox.ocupied = true;
-                    battlefield.grids[currentBox.Index] = this.currentBox;
-                    this.currentBox = (battlefield.grids.Find(x => x.Index == currentBox.Index + battlefield.xLenght));
-                    this.currentBox.ocupied = false;
-                    battlefield.grids[currentBox.Index] = currentBox;
-                    Console.WriteLine($"Player {PlayerIndex} walked down\n");
-                    battlefield.DrawBattlefield();
+                    if (currentBox.yIndex > Target.currentBox.yIndex)
+                    {
+                        currentBox.ocupied = false;
+                        battlefield.grids[currentBox.Index] = currentBox;
+                        currentBox = (battlefield.grids.Find(x => x.Index == currentBox.Index - battlefield.yLength));
+                        currentBox.ocupied = true;
+                        battlefield.grids[currentBox.Index] = currentBox;
+                        Console.WriteLine($"Player {PlayerIndex} walked up\n");
+                        battlefield.DrawBattlefield();
+                    }
+                    else if (currentBox.yIndex < Target.currentBox.yIndex)
+                    {
+                        currentBox.ocupied = false;
+                        battlefield.grids[currentBox.Index] = currentBox;
+                        currentBox = (battlefield.grids.Find(x => x.Index == currentBox.Index + battlefield.yLength));
+                        currentBox.ocupied = true;
+                        battlefield.grids[currentBox.Index] = currentBox;
+                        Console.WriteLine($"Player {PlayerIndex} walked down\n");
+                        battlefield.DrawBattlefield();
+                    }
                 }
             }
         }

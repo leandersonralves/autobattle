@@ -15,14 +15,14 @@ namespace AutoBattle
         public Grid(int lines, int columns)
         {
             AmountCount = lines * columns;
-            xLenght = lines;
-            yLength = columns;
+            xLenght = columns;
+            yLength = lines;
             Console.WriteLine("The battle field has been created\n");
             for (int i = 0; i < lines; i++)
             {
                 for(int j = 0; j < columns; j++)
                 {
-                    GridBox newBox = new GridBox(j, i, false, (columns * i + j));
+                    GridBox newBox = new GridBox(j, i, false, (lines * i + j));
                     grids.Add(newBox);
                     //Console.Write($"{newBox.Index}\n");
                 }
@@ -36,13 +36,14 @@ namespace AutoBattle
             {
                 for (int j = 0; j < yLength; j++)
                 {
-                    if (grids[i * j + j].ocupied)
+                    if (grids[i * xLenght + j].ocupied)
                     {
-                        Console.Write($"[{grids[i].Index}]\t");
+                        Console.Write($"[{grids[i * xLenght + j].Index}X]\t");
                     }
                     else
                     {
-                        Console.Write("[ ]\t");
+                        Console.Write($"[{grids[i * xLenght + j].Index}]\t");
+                        //Console.Write("[ ]\t");
                     }
                 }
                 Console.Write(Environment.NewLine + Environment.NewLine);

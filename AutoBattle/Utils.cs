@@ -4,10 +4,11 @@ namespace AutoBattle
 {
     class Utils
     {
+        private static readonly Random _random = new Random();
+
         public static int GetRandomInt(int min, int max)
         {
-            var rand = new Random();
-            int index = rand.Next(min, max);
+            int index = _random.Next(min, max);
             return index;
         }
     }

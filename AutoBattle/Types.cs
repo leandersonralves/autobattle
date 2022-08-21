@@ -15,7 +15,7 @@ namespace AutoBattle.Types
         public int xIndex;
         public int yIndex;
         public bool ocupied;
-        public int Index;
+        public int Index { get; private set; }
 
         public GridBox(int x, int y, bool ocupied, int index)
         {

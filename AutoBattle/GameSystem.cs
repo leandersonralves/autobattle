@@ -12,12 +12,10 @@ namespace AutoBattle
         private Character PlayerCharacter;
         private Character EnemyCharacter;
         private List<Character> AllPlayers = new List<Character>();
-        private bool firstTurn = true;
 
         public GameSystem (int height, int width)
         {
             grid = new Grid(width, height);
-            firstTurn = true;
         }
 
         public void Setup()
@@ -60,22 +58,29 @@ namespace AutoBattle
             //populates the character variables and targets
             EnemyCharacter.Target = PlayerCharacter;
             PlayerCharacter.Target = EnemyCharacter;
-            AllPlayers.Add(PlayerCharacter);
-            AllPlayers.Add(EnemyCharacter);
+
+            //ordering turn players.
+            if (Utils.GetRandomInt(0,2) > 0)
+            {
+                AllPlayers.Add(PlayerCharacter);
+                AllPlayers.Add(EnemyCharacter);
+            }
+            else
+            {
+                AllPlayers.Add(EnemyCharacter);
+                AllPlayers.Add(PlayerCharacter);
+            }
+
             AlocatePlayers();
         }
 
         void StartTurn()
         {
-            if (firstTurn)
-            {
-                //AllPlayers.Sort();  
-            }
-            firstTurn = true;
-
+            var i = 0;
             foreach (Character character in AllPlayers)
             {
                 character.StartTurn(grid);
+                Console.WriteLine("Turn of " + character.PlayerIndex + " " + character.Name + i++);
             }
 
             HandleTurn();
