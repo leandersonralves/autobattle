@@ -14,21 +14,23 @@ namespace AutoBattle.Characters
     public abstract class Character
     {
         public abstract string Name { get; }
-        public abstract float Health { get; protected set; }
-        public abstract float BaseDamage { get; protected set; }
+        public abstract int Health { get; protected set; }
+        public bool IsAlive { get => Health > 0; }
+
+        public abstract int BaseDamage { get; protected set; }
         public abstract float DamageMultiplier { get; protected set; }
         public GridBox currentBox;
         public int PlayerIndex { get; protected set; }
         public Character Target { get; set; }
 
-        public bool TakeDamage(float amount)
+        public bool TakeDamage(int damageSuffered)
         {
-            if((Health -= BaseDamage) <= 0)
+            if ((Health -= damageSuffered) <= 0)
             {
                 Die();
                 return true;
             }
-            Console.WriteLine($"{ Name } Player ({ PlayerIndex }) Health {Health}");
+            Console.WriteLine($"{ Name } Player ({ PlayerIndex }) Health { Health }, damage suffered { damageSuffered } .");
             return false;
         }
 
@@ -118,7 +120,7 @@ namespace AutoBattle.Characters
         public void Attack (Character target)
         {
             Random rand = new Random();
-            target.TakeDamage(rand.Next(0, (int)BaseDamage));
+            target.TakeDamage(rand.Next(0, BaseDamage));
             Console.WriteLine($"Player ({PlayerIndex}) is attacking the Player ({Target.PlayerIndex}) and did {BaseDamage} damage.");
         }
     }
@@ -126,60 +128,60 @@ namespace AutoBattle.Characters
     public class Paladin : Character
     {
         public override string Name { get => "Paladin"; }
-        public override float Health { get; protected set; }
-        public override float BaseDamage { get; protected set; }
+        public override int Health { get; protected set; }
+        public override int BaseDamage { get; protected set; }
         public override float DamageMultiplier { get; protected set; }
 
         public Paladin (int playerIndex)
         {
             PlayerIndex = playerIndex;
-            Health = 100f;
-            BaseDamage = 20f;
+            Health = 100;
+            BaseDamage = 20;
         }
     }
 
     public class Warrior : Character
     {
         public override string Name { get => "Warrior"; }
-        public override float Health { get; protected set; }
-        public override float BaseDamage { get; protected set; }
+        public override int Health { get; protected set; }
+        public override int BaseDamage { get; protected set; }
         public override float DamageMultiplier { get; protected set; }
 
         public Warrior(int playerIndex)
         {
             PlayerIndex = playerIndex;
-            Health = 100f;
-            BaseDamage = 20f;
+            Health = 100;
+            BaseDamage = 20;
         }
     }
 
     public class Cleric : Character
     {
         public override string Name { get => "Cleric"; }
-        public override float Health { get; protected set; }
-        public override float BaseDamage { get; protected set; }
+        public override int Health { get; protected set; }
+        public override int BaseDamage { get; protected set; }
         public override float DamageMultiplier { get; protected set; }
 
         public Cleric(int playerIndex)
         {
             PlayerIndex = playerIndex;
-            Health = 100f;
-            BaseDamage = 20f;
+            Health = 100;
+            BaseDamage = 20;
         }
     }
 
     public class Archer : Character
     {
         public override string Name { get => "Archer"; }
-        public override float Health { get; protected set; }
-        public override float BaseDamage { get; protected set; }
+        public override int Health { get; protected set; }
+        public override int BaseDamage { get; protected set; }
         public override float DamageMultiplier { get; protected set; }
 
         public Archer(int playerIndex)
         {
             PlayerIndex = playerIndex;
-            Health = 100f;
-            BaseDamage = 20f;
+            Health = 100;
+            BaseDamage = 20;
         }
     }
 }

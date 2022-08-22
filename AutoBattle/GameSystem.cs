@@ -78,7 +78,8 @@ namespace AutoBattle
         {
             foreach (Character character in AllPlayers)
             {
-                character.StartTurn(grid);
+                if (character.IsAlive) // Checking if player is alive, to avoid attack at falling death.
+                    character.StartTurn(grid);
                 //Console.WriteLine("Turn of " + character.PlayerIndex + " " + character.Name + i++);
             }
 
@@ -87,7 +88,7 @@ namespace AutoBattle
 
         private void HandleTurn()
         {
-            if (PlayerCharacter.Health == 0)
+            if (!PlayerCharacter.IsAlive)
             {
                 GridBox gridBox = PlayerCharacter.currentBox;
                 gridBox.ocupied = false;
@@ -97,7 +98,7 @@ namespace AutoBattle
                 Console.WriteLine("Jogador perdeu a batalha!");
                 Console.Write(Environment.NewLine + Environment.NewLine);
             }
-            else if (EnemyCharacter.Health == 0)
+            else if (!EnemyCharacter.IsAlive)
             {
                 GridBox gridBox = EnemyCharacter.currentBox;
                 gridBox.ocupied = false;

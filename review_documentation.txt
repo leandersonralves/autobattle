@@ -11,6 +11,7 @@ Removed unused variables playerCharacterClass, PlayerCurrentLocation and EnemyCu
 Removed $ from Write where dont need a special format, optimization.
 Removed if statement in StartTurn function, and randomized first player in StartGame function.
 Removed this keyword in StartTurn function to variable currentBox, this keyword is necessary only if are a local and class scope variable with same name.
+Changed all Damage/Health types to int.
 
 
 
@@ -41,6 +42,8 @@ Inverted x/y correlation with line/collumns in Grid constructor.
 If player goes to last grid and next move was to left, player was locked.
 Character doing two moves one per axis in one turn, now it's once and prioritizing the axis closest to the opponent.
 Fixed checking of characters in range attack.
+TakeDamage was using own BaseDamage instead use argument amount (changed argument name to damageSuffered).
+Bug fixed - HandleTurn checked if char was dead comparing health with 0, now is checking property IsAlive.
 
 
 
