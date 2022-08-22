@@ -12,6 +12,8 @@ Removed $ from Write where dont need a special format, optimization.
 Removed if statement in StartTurn function, and randomized first player in StartGame function.
 Removed this keyword in StartTurn function to variable currentBox, this keyword is necessary only if are a local and class scope variable with same name.
 
+
+
 - Architecture System
 Implemented Factory Design Pattern to Characters/Class.
   Encapsulated some properties from Character that makes sense to be defined only in instantiation.
@@ -29,6 +31,9 @@ Removed some functions calls nested to decrease stack.
 Removed arguments lines and columns from function DrawBattlefield, now draw whole field.
 Added a GridsCount property instead use property .Count from List<Grid>.
 
+Extract method Walk to execute a movement in a Grid.
+
+
 Bug fixed
 Draw called before movement when char walked to up.
 When player move to down was inverted definition of flag occupied.
@@ -36,6 +41,8 @@ Inverted x/y correlation with line/collumns in Grid constructor.
 If player goes to last grid and next move was to left, player was locked.
 Character doing two moves one per axis in one turn, now it's once and prioritizing the axis closest to the opponent.
 Fixed checking of characters in range attack.
+
+
 
 Discussion:
 I thought about algorithm to allocate player/enemy in battlefield chosing a random grid and checking if is empty,

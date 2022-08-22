@@ -4,7 +4,7 @@
     {
         static void Main(string[] args)
         {
-            GameSystem gameSystem = new GameSystem(7, 5);
+            GameSystem gameSystem = new GameSystem(7, 7);
             gameSystem.Setup();
         }
     }
