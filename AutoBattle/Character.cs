@@ -19,6 +19,11 @@ namespace AutoBattle.Characters
 
         public abstract int BaseDamage { get; protected set; }
         public abstract float DamageMultiplier { get; protected set; }
+
+        private int attackProbabilityOverTen = 7;
+
+        private int distancePushAway = 3;
+
         public GridBox currentBox;
         public int PlayerIndex { get; protected set; }
         public Character Target { get; set; }
@@ -41,13 +46,21 @@ namespace AutoBattle.Characters
 
         public void StartTurn(Grid battlefield)
         {
-            if (CheckCloseTargets(battlefield)) 
-            {
-                Attack(Target);
-            }
-            else
-            {
+            bool inRangeBeforeWalk = CheckCloseTargets(battlefield);
+            if (!inRangeBeforeWalk)
                 Walk(battlefield);
+
+            if (inRangeBeforeWalk || CheckCloseTargets(battlefield)) //checking if is closer only if before walk was out or range.
+            {
+                //TODO: implement push away ability.
+                //if (Utils.GetRandomInt(0, 10) > attackProbabilityOverTen)
+                {
+                    Attack(Target);
+                }
+                //else
+                //{
+                //    PushTarget(battlefield);
+                //}
             }
         }
 
@@ -119,9 +132,27 @@ namespace AutoBattle.Characters
 
         public void Attack (Character target)
         {
-            Random rand = new Random();
-            target.TakeDamage(rand.Next(0, BaseDamage));
-            Console.WriteLine($"Player ({PlayerIndex}) is attacking the Player ({Target.PlayerIndex}) and did {BaseDamage} damage.");
+            int damageCalculated = (int)(Utils.GetRandomInt(0, BaseDamage + 1) * DamageMultiplier);
+            Console.WriteLine($"Player ({ PlayerIndex }) is attacking the Player ({ Target.PlayerIndex }) and did { damageCalculated } damage.");
+            target.TakeDamage(damageCalculated);
+        }
+
+        public void PushTarget (Grid battlefield)
+        {
+            Console.WriteLine($"Player ({ PlayerIndex }) is pushing away Player ({ Target.PlayerIndex }).");
+
+            Target.currentBox.ocupied = false;
+            battlefield.grids[Target.currentBox.Index] = Target.currentBox;
+
+            // getting direction of enemy and multiply by distance push.
+            int dirXAway = Math.Sign(currentBox.xIndex - Target.currentBox.xIndex) * distancePushAway;
+            int diryAway = Math.Sign(currentBox.yIndex - Target.currentBox.yIndex) * distancePushAway;
+            
+
+
+            Target.currentBox.ocupied = true;
+            battlefield.grids[Target.currentBox.Index] = Target.currentBox;
+            battlefield.DrawBattlefield();
         }
     }
 
@@ -130,7 +161,7 @@ namespace AutoBattle.Characters
         public override string Name { get => "Paladin"; }
         public override int Health { get; protected set; }
         public override int BaseDamage { get; protected set; }
-        public override float DamageMultiplier { get; protected set; }
+        public override float DamageMultiplier { get; protected set; } = 1f;
 
         public Paladin (int playerIndex)
         {
@@ -145,7 +176,7 @@ namespace AutoBattle.Characters
         public override string Name { get => "Warrior"; }
         public override int Health { get; protected set; }
         public override int BaseDamage { get; protected set; }
-        public override float DamageMultiplier { get; protected set; }
+        public override float DamageMultiplier { get; protected set; } = 1f;
 
         public Warrior(int playerIndex)
         {
@@ -160,7 +191,7 @@ namespace AutoBattle.Characters
         public override string Name { get => "Cleric"; }
         public override int Health { get; protected set; }
         public override int BaseDamage { get; protected set; }
-        public override float DamageMultiplier { get; protected set; }
+        public override float DamageMultiplier { get; protected set; } = 1f;
 
         public Cleric(int playerIndex)
         {
@@ -175,7 +206,7 @@ namespace AutoBattle.Characters
         public override string Name { get => "Archer"; }
         public override int Health { get; protected set; }
         public override int BaseDamage { get; protected set; }
-        public override float DamageMultiplier { get; protected set; }
+        public override float DamageMultiplier { get; protected set; } = 1f;
 
         public Archer(int playerIndex)
         {

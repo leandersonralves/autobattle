@@ -2,14 +2,6 @@
 
 namespace AutoBattle.Types
 {
-    public struct CharacterClassSpecific
-    {
-        CharacterClass CharacterClass;
-        float hpModifier;
-        float ClassDamage;
-        CharacterSkills[] skills;
-    }
-
     public struct GridBox
     {
         public int xIndex;
@@ -24,12 +16,5 @@ namespace AutoBattle.Types
             this.ocupied = ocupied;
             this.Index = index;
         }
-    }
-
-    public struct CharacterSkills
-    {
-        string Name;
-        float damage;
-        float damageMultiplier;
     }
 }

@@ -94,8 +94,8 @@ namespace AutoBattle
                 gridBox.ocupied = false;
                 grid.grids[gridBox.Index] = gridBox;
                 Console.Write(Environment.NewLine);
-                Console.WriteLine("Jogo finalizado!");
-                Console.WriteLine("Jogador perdeu a batalha!");
+                Console.WriteLine("Game Over!");
+                Console.WriteLine("Player Lost battle!");
                 Console.Write(Environment.NewLine + Environment.NewLine);
             }
             else if (!EnemyCharacter.IsAlive)
@@ -104,8 +104,8 @@ namespace AutoBattle
                 gridBox.ocupied = false;
                 grid.grids[gridBox.Index] = gridBox;
                 Console.Write(Environment.NewLine);
-                Console.WriteLine("Jogo finalizado!");
-                Console.WriteLine("Jogador perdeu a batalha!");
+                Console.WriteLine("Player Win!");
+                Console.WriteLine("Player slaughter Enemy!");
                 Console.Write(Environment.NewLine + Environment.NewLine);
             }
             else
@@ -114,7 +114,7 @@ namespace AutoBattle
                 Console.WriteLine("Click on any key to start the next turn...");
                 Console.Write(Environment.NewLine + Environment.NewLine);
 
-                ConsoleKeyInfo key = Console.ReadKey();
+                Console.ReadKey();
                 StartTurn();
             }
         }
