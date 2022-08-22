@@ -14,18 +14,25 @@ namespace AutoBattle.Characters
     public abstract class Character
     {
         public abstract string Name { get; }
+
         public abstract int Health { get; protected set; }
+
         public bool IsAlive { get => Health > 0; }
 
         public abstract int BaseDamage { get; protected set; }
+
         public abstract float DamageMultiplier { get; protected set; }
 
-        private int attackProbabilityOverTen = 7;
+        private int attackProbabilityOverTen = 2;
 
-        private int distancePushAway = 3;
+        private int distancePushAway = 2;
+
+        private int rangeAttack = 1;
 
         public GridBox currentBox;
+
         public int PlayerIndex { get; protected set; }
+
         public Character Target { get; set; }
 
         public bool TakeDamage(int damageSuffered)
@@ -46,21 +53,30 @@ namespace AutoBattle.Characters
 
         public void StartTurn(Grid battlefield)
         {
-            bool inRangeBeforeWalk = CheckCloseTargets(battlefield);
-            if (!inRangeBeforeWalk)
+            if (CheckCloseTargets(battlefield))
+            {
+                ChooseState(battlefield);
+            }
+            else
+            {
                 Walk(battlefield);
 
-            if (inRangeBeforeWalk || CheckCloseTargets(battlefield)) //checking if is closer only if before walk was out or range.
-            {
-                //TODO: implement push away ability.
-                //if (Utils.GetRandomInt(0, 10) > attackProbabilityOverTen)
+                if (CheckCloseTargets(battlefield))
                 {
-                    Attack(Target);
+                    ChooseState(battlefield);
                 }
-                //else
-                //{
-                //    PushTarget(battlefield);
-                //}
+            }
+        }
+
+        private void ChooseState(Grid battlefield)
+        {
+            if (Utils.GetRandomInt(0, 10) > attackProbabilityOverTen)
+            {
+                PushTarget(battlefield);
+            }
+            else
+            {
+                Attack(Target);
             }
         }
 
@@ -75,44 +91,28 @@ namespace AutoBattle.Characters
                 // if there is no target close enough, calculates in wich direction this character should move to be closer to a possible target
                 if (currentBox.xIndex > Target.currentBox.xIndex)
                 {
-                    currentBox.ocupied = false;
-                    battlefield.grids[currentBox.Index] = currentBox;
-                    currentBox = (battlefield.grids.Find(x => x.Index == currentBox.Index - 1));
-                    currentBox.ocupied = true;
-                    battlefield.grids[currentBox.Index] = currentBox;
+                    currentBox.xIndex -= 1;
                     Console.WriteLine($"Player ({PlayerIndex}) walked left.");
                     battlefield.DrawBattlefield();
                 }
                 else if (currentBox.xIndex < Target.currentBox.xIndex)
                 {
-                    currentBox.ocupied = false;
-                    battlefield.grids[currentBox.Index] = currentBox;
-                    currentBox = (battlefield.grids.Find(x => x.Index == currentBox.Index + 1));
-                    currentBox.ocupied = true;
-                    battlefield.grids[currentBox.Index] = currentBox;
+                    currentBox.xIndex += 1;
                     Console.WriteLine($"Player ({PlayerIndex}) walked right.");
                     battlefield.DrawBattlefield();
                 }
             }
-            else if (distY != 0)
+            else if (distY > 0)
             {
                 if (currentBox.yIndex > Target.currentBox.yIndex)
                 {
-                    currentBox.ocupied = false;
-                    battlefield.grids[currentBox.Index] = currentBox;
-                    currentBox = (battlefield.grids.Find(x => x.Index == currentBox.Index - battlefield.xLength));
-                    currentBox.ocupied = true;
-                    battlefield.grids[currentBox.Index] = currentBox;
+                    currentBox.yIndex -= 1;
                     Console.WriteLine($"Player ({PlayerIndex}) walked up.");
                     battlefield.DrawBattlefield();
                 }
                 else if (currentBox.yIndex < Target.currentBox.yIndex)
                 {
-                    currentBox.ocupied = false;
-                    battlefield.grids[currentBox.Index] = currentBox;
-                    currentBox = (battlefield.grids.Find(x => x.Index == currentBox.Index + battlefield.xLength));
-                    currentBox.ocupied = true;
-                    battlefield.grids[currentBox.Index] = currentBox;
+                    currentBox.yIndex += 1;
                     Console.WriteLine($"Player ({PlayerIndex}) walked down.");
                     battlefield.DrawBattlefield();
                 }
@@ -122,12 +122,10 @@ namespace AutoBattle.Characters
         // Check in x and y directions if there is any character close enough to be a target.
         bool CheckCloseTargets(Grid battlefield)
         {
-            bool left = (battlefield.grids.Find(x => x.Index == currentBox.Index - 1).ocupied);
-            bool right = (battlefield.grids.Find(x => x.Index == currentBox.Index + 1).ocupied);
-            bool up = (battlefield.grids.Find(x => x.Index == currentBox.Index - battlefield.xLength).ocupied);
-            bool down = (battlefield.grids.Find(x => x.Index == currentBox.Index + battlefield.xLength).ocupied);
+            float verticalDistance = Math.Abs(currentBox.xIndex - Target.currentBox.xIndex);
+            float horizontalDistance = Math.Abs(currentBox.yIndex - Target.currentBox.yIndex);
 
-            return left || right || up || down;
+            return (verticalDistance == 0 && (horizontalDistance == rangeAttack)) || (horizontalDistance == 0 && (verticalDistance == rangeAttack)); // if is align in a axis and another is in distance range.
         }
 
         public void Attack (Character target)
@@ -139,19 +137,15 @@ namespace AutoBattle.Characters
 
         public void PushTarget (Grid battlefield)
         {
+            // getting direction of enemy and multiply by distance push.
+            int directionXAway = Math.Sign(Target.currentBox.xIndex - currentBox.xIndex) * distancePushAway;
+            int directionYAway = Math.Sign(Target.currentBox.yIndex - currentBox.yIndex) * distancePushAway;
+
             Console.WriteLine($"Player ({ PlayerIndex }) is pushing away Player ({ Target.PlayerIndex }).");
 
-            Target.currentBox.ocupied = false;
-            battlefield.grids[Target.currentBox.Index] = Target.currentBox;
-
-            // getting direction of enemy and multiply by distance push.
-            int dirXAway = Math.Sign(currentBox.xIndex - Target.currentBox.xIndex) * distancePushAway;
-            int diryAway = Math.Sign(currentBox.yIndex - Target.currentBox.yIndex) * distancePushAway;
-            
-
-
-            Target.currentBox.ocupied = true;
-            battlefield.grids[Target.currentBox.Index] = Target.currentBox;
+            GridBox gridBox = Target.currentBox;
+            gridBox.xIndex = Math.Clamp(gridBox.xIndex + directionXAway, 0, battlefield.XLength - 1);
+            gridBox.yIndex = Math.Clamp(gridBox.yIndex + directionYAway, 0, battlefield.YLength - 1);
             battlefield.DrawBattlefield();
         }
     }
