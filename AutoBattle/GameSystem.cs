@@ -13,9 +13,9 @@ namespace AutoBattle
         private Character EnemyCharacter;
         private List<Character> AllPlayers = new List<Character>();
 
-        public GameSystem (int height, int width)
+        public GameSystem (int lines, int columns)
         {
-            grid = new Grid(width, height);
+            grid = new Grid(lines, columns);
         }
 
         public void Setup()
@@ -80,7 +80,7 @@ namespace AutoBattle
             foreach (Character character in AllPlayers)
             {
                 character.StartTurn(grid);
-                Console.WriteLine("Turn of " + character.PlayerIndex + " " + character.Name + i++);
+                //Console.WriteLine("Turn of " + character.PlayerIndex + " " + character.Name + i++);
             }
 
             HandleTurn();
@@ -90,14 +90,16 @@ namespace AutoBattle
         {
             if (PlayerCharacter.Health == 0)
             {
-                //TODO: to include lost game.
+                Console.Write(Environment.NewLine);
+                Console.WriteLine("Jogo finalizado!");
+                Console.WriteLine("Jogador perdeu a batalha!");
+                Console.Write(Environment.NewLine + Environment.NewLine);
             }
             else if (EnemyCharacter.Health == 0)
             {
-                Console.Write(Environment.NewLine + Environment.NewLine);
-
-                //TODO: include win game.
-
+                Console.Write(Environment.NewLine);
+                Console.WriteLine("Jogo finalizado!");
+                Console.WriteLine("Jogador perdeu a batalha!");
                 Console.Write(Environment.NewLine + Environment.NewLine);
             }
             else

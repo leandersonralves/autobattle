@@ -25,9 +25,11 @@ namespace AutoBattle.Characters
         {
             if((Health -= BaseDamage) <= 0)
             {
+                Console.WriteLine($"{ Name } Player ({ PlayerIndex }) Died!");
                 Die();
                 return true;
             }
+            Console.WriteLine($"{ Name } P({ PlayerIndex }) Health {Health}");
             return false;
         }
 
@@ -49,11 +51,11 @@ namespace AutoBattle.Characters
             }
             else
             {
-                float distX = currentBox.xIndex - Target.currentBox.xIndex;
-                float distY = currentBox.yIndex - Target.currentBox.yIndex;
+                float distX = Math.Abs(currentBox.xIndex - Target.currentBox.xIndex);
+                float distY = Math.Abs(currentBox.yIndex - Target.currentBox.yIndex);
 
                 //priorizing movement in axis more closer.
-                if (Math.Abs(distX) < Math.Abs(distY))
+                if ((distX != 0) && (distX < distY))
                 {
                     // if there is no target close enough, calculates in wich direction this character should move to be closer to a possible target
                     if (currentBox.xIndex > Target.currentBox.xIndex)
@@ -77,13 +79,13 @@ namespace AutoBattle.Characters
                         battlefield.DrawBattlefield();
                     }
                 }
-                else
+                else if (distY != 0)
                 {
                     if (currentBox.yIndex > Target.currentBox.yIndex)
                     {
                         currentBox.ocupied = false;
                         battlefield.grids[currentBox.Index] = currentBox;
-                        currentBox = (battlefield.grids.Find(x => x.Index == currentBox.Index - battlefield.yLength));
+                        currentBox = (battlefield.grids.Find(x => x.Index == currentBox.Index - battlefield.xLength));
                         currentBox.ocupied = true;
                         battlefield.grids[currentBox.Index] = currentBox;
                         Console.WriteLine($"Player {PlayerIndex} walked up\n");
@@ -93,7 +95,7 @@ namespace AutoBattle.Characters
                     {
                         currentBox.ocupied = false;
                         battlefield.grids[currentBox.Index] = currentBox;
-                        currentBox = (battlefield.grids.Find(x => x.Index == currentBox.Index + battlefield.yLength));
+                        currentBox = (battlefield.grids.Find(x => x.Index == currentBox.Index + battlefield.xLength));
                         currentBox.ocupied = true;
                         battlefield.grids[currentBox.Index] = currentBox;
                         Console.WriteLine($"Player {PlayerIndex} walked down\n");
@@ -108,14 +110,10 @@ namespace AutoBattle.Characters
         {
             bool left = (battlefield.grids.Find(x => x.Index == currentBox.Index - 1).ocupied);
             bool right = (battlefield.grids.Find(x => x.Index == currentBox.Index + 1).ocupied);
-            bool up = (battlefield.grids.Find(x => x.Index == currentBox.Index + battlefield.xLenght).ocupied);
-            bool down = (battlefield.grids.Find(x => x.Index == currentBox.Index - battlefield.xLenght).ocupied);
+            bool up = (battlefield.grids.Find(x => x.Index == currentBox.Index - battlefield.xLength).ocupied);
+            bool down = (battlefield.grids.Find(x => x.Index == currentBox.Index + battlefield.xLength).ocupied);
 
-            if (left & right & up & down) 
-            {
-                return true;
-            }
-            return false; 
+            return left || right || up || down;
         }
 
         public void Attack (Character target)

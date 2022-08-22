@@ -35,6 +35,7 @@ When player move to down was inverted definition of flag occupied.
 Inverted x/y correlation with line/collumns in Grid constructor.
 If player goes to last grid and next move was to left, player was locked.
 Character doing two moves one per axis in one turn, now it's once and prioritizing the axis closest to the opponent.
+Fixed checking of characters in range attack.
 
 Discussion:
 I thought about algorithm to allocate player/enemy in battlefield chosing a random grid and checking if is empty,

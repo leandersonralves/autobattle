@@ -7,7 +7,7 @@ namespace AutoBattle
     public class Grid
     {
         public List<GridBox> grids = new List<GridBox>();
-        public int xLenght;
+        public int xLength;
         public int yLength;
 
         public int AmountCount { get; private set; }
@@ -15,16 +15,17 @@ namespace AutoBattle
         public Grid(int lines, int columns)
         {
             AmountCount = lines * columns;
-            xLenght = columns;
+            xLength = columns;
             yLength = lines;
             Console.WriteLine("The battle field has been created\n");
             for (int i = 0; i < lines; i++)
             {
                 for(int j = 0; j < columns; j++)
                 {
-                    GridBox newBox = new GridBox(j, i, false, (lines * i + j));
+                    GridBox newBox = new GridBox(j, i, false, (i * columns + j));
                     grids.Add(newBox);
-                    //Console.Write($"{newBox.Index}\n");
+                    //Console.Write($"Index {newBox.Index}\n");
+                    //Console.Write($"indexlist {grids.IndexOf(newBox)}\n");
                 }
             }
         }
@@ -32,18 +33,19 @@ namespace AutoBattle
         // prints the matrix that indicates the tiles of the battlefield
         public void DrawBattlefield()
         {
-            for (int i = 0; i < xLenght; i++)
+            for (int i = 0; i < yLength; i++)
             {
-                for (int j = 0; j < yLength; j++)
+                for (int j = 0; j < xLength; j++)
                 {
-                    if (grids[i * xLenght + j].ocupied)
+                    GridBox g = grids[i * xLength + j];
+                    if (g.ocupied)
                     {
-                        Console.Write($"[{grids[i * xLenght + j].Index}X]\t");
+                        Console.Write($"[X]\t");
                     }
                     else
                     {
-                        Console.Write($"[{grids[i * xLenght + j].Index}]\t");
-                        //Console.Write("[ ]\t");
+                        Console.Write("[ ]\t");
+                        //Console.Write($"[{g.xIndex} , {g.yIndex}]\t");
                     }
                 }
                 Console.Write(Environment.NewLine + Environment.NewLine);
