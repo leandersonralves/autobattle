@@ -23,7 +23,7 @@ namespace AutoBattle.Characters
 
         public abstract float DamageMultiplier { get; protected set; }
 
-        private int attackProbabilityOverTen = 2;
+        private int attackProbabilityOverTen = 7;
 
         private int distancePushAway = 2;
 
@@ -92,13 +92,13 @@ namespace AutoBattle.Characters
                 if (currentBox.xIndex > Target.currentBox.xIndex)
                 {
                     currentBox.xIndex -= 1;
-                    Console.WriteLine($"Player ({PlayerIndex}) walked left.");
+                    Console.WriteLine($"Player ({ PlayerIndex }) walked left.");
                     battlefield.DrawBattlefield();
                 }
                 else if (currentBox.xIndex < Target.currentBox.xIndex)
                 {
                     currentBox.xIndex += 1;
-                    Console.WriteLine($"Player ({PlayerIndex}) walked right.");
+                    Console.WriteLine($"Player ({ PlayerIndex }) walked right.");
                     battlefield.DrawBattlefield();
                 }
             }
@@ -107,13 +107,13 @@ namespace AutoBattle.Characters
                 if (currentBox.yIndex > Target.currentBox.yIndex)
                 {
                     currentBox.yIndex -= 1;
-                    Console.WriteLine($"Player ({PlayerIndex}) walked up.");
+                    Console.WriteLine($"Player ({ PlayerIndex }) walked up.");
                     battlefield.DrawBattlefield();
                 }
                 else if (currentBox.yIndex < Target.currentBox.yIndex)
                 {
                     currentBox.yIndex += 1;
-                    Console.WriteLine($"Player ({PlayerIndex}) walked down.");
+                    Console.WriteLine($"Player ({ PlayerIndex }) walked down.");
                     battlefield.DrawBattlefield();
                 }
             }
@@ -135,6 +135,10 @@ namespace AutoBattle.Characters
             target.TakeDamage(damageCalculated);
         }
 
+        /// <summary>
+        /// Push away a Target opponent.
+        /// </summary>
+        /// <param name="battlefield"></param>
         public void PushTarget (Grid battlefield)
         {
             // getting direction of enemy and multiply by distance push.

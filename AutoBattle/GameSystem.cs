@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using AutoBattle.Types;
 using AutoBattle.Characters;
 
@@ -16,29 +14,52 @@ namespace AutoBattle
 
         private Character[] AllPlayers = new Character[0];
 
-        public void Setup(int lines, int columns)
+        public void StartNewGame(int lines, int columns)
         {
-            int choice = GetPlayerChoice();
-            CreatePlayerCharacter(choice);
+            Console.WriteLine("=====================================");
+            Console.WriteLine("Autobattle Game Test");
+            int classChoice = GetPlayerChoice();
+
+            Console.Write(Environment.NewLine);
+            CreatePlayerCharacter(classChoice);
             CreateEnemyCharacter();
-            StartGame(lines, columns);
+            PrepareBattlefield(lines, columns);
+
+            Console.ReadKey(); // waiting a input to start turns.
             StartTurn();
         }
 
+        /// <summary>
+        /// Wait a Input from Player which Class he want.
+        /// </summary>
+        /// <returns>Player Input</returns>
         private int GetPlayerChoice()
         {
+            Console.WriteLine("-------------------------------------");
+
             //asks for the player to choose between for possible classes via console.
-            Console.WriteLine("Choose Between One of this Classes:");
-            Console.WriteLine("[1] Paladin, [2] Warrior, [3] Cleric, [4] Archer");
+            Console.WriteLine(Environment.NewLine + 
+                              "Choose Between One of this Classes:" +
+                              Environment.NewLine +
+                              "[1] Paladin, [2] Warrior, [3] Cleric, [4] Archer");
 
             //store the player choice in a variable
-            return InputSystem.ReadInt(1, 4, "Type which class: [1] Paladin, [2] Warrior, [3] Cleric, [4] Archer...");
+            int choose = InputSystem.ReadInt(1, 4,
+                Environment.NewLine + 
+                "Choose not recognized, choose Between:" +
+                Environment.NewLine + 
+                "[1] Paladin, [2] Warrior, [3] Cleric, [4] Archer"
+            );
+
+            Console.WriteLine("-------------------------------------");
+
+            return choose;
         }
 
         private void CreatePlayerCharacter(int classIndex)
         {
             CharacterClass characterClass = (CharacterClass)classIndex;
-            Console.WriteLine($"Player Class Choice: {characterClass}");
+            Console.WriteLine($"Player Class Choice: { characterClass }");
             PlayerCharacter = Factory.CharacterFactory.InstantiateCharacter(0, characterClass);
         }
 
@@ -47,18 +68,23 @@ namespace AutoBattle
             //randomly choose the enemy class and set up vital variables
             int rand = Utils.GetRandomInt(1, 4);
             CharacterClass enemyClass = (CharacterClass)rand;
-            Console.WriteLine($"Enemy Class Choice: {enemyClass}");
+            Console.WriteLine($"Enemy Class Choice: { enemyClass }");
             EnemyCharacter = Factory.CharacterFactory.InstantiateCharacter(1, enemyClass);
         }
 
-        private void StartGame(int lines, int columns)
+        /// <summary>
+        /// Create battlefield with a specified size.
+        /// </summary>
+        /// <param name="lines">Amount lines.</param>
+        /// <param name="columns">Amount columns</param>
+        private void PrepareBattlefield(int lines, int columns)
         {
             //populates the character variables and targets
             EnemyCharacter.Target = PlayerCharacter;
             PlayerCharacter.Target = EnemyCharacter;
 
             AllPlayers = new Character[2];
-            //ordering turn players.
+            //ordering turn players randomized.
             if (Utils.GetRandomInt(0,2) > 0)
             {
                 AllPlayers[0] = PlayerCharacter;
@@ -107,8 +133,14 @@ namespace AutoBattle
             foreach (Character character in AllPlayers)
             {
                 if (character.IsAlive) // Checking if player is alive, to avoid attack at falling death.
+                {
                     character.StartTurn(grid);
-                //Console.WriteLine("Turn of " + character.PlayerIndex + " " + character.Name + i++);
+                    //Console.WriteLine("Turn of " + character.PlayerIndex + " " + character.Name + i++);
+                    Console.Write(Environment.NewLine);
+                    Console.WriteLine("Press any key to start new phase.");
+                    Console.Write(Environment.NewLine);
+                    Console.ReadKey();
+                }
             }
 
             HandleTurn();
@@ -132,10 +164,9 @@ namespace AutoBattle
             }
             else
             {
-                Console.Write(Environment.NewLine + Environment.NewLine);
+                Console.Write(Environment.NewLine);
                 Console.WriteLine("Click on any key to start the next turn...");
-                Console.Write(Environment.NewLine + Environment.NewLine);
-
+                Console.Write(Environment.NewLine);
                 Console.ReadKey();
                 StartTurn();
             }

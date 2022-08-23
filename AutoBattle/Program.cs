@@ -7,7 +7,7 @@ namespace AutoBattle
         static void Main(string[] args)
         {
             GameSystem gameSystem = new GameSystem();
-            gameSystem.Setup(7, 7);
+            gameSystem.StartNewGame(7, 7);
         }
     }
 }

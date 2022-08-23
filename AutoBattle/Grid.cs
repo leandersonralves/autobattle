@@ -42,7 +42,7 @@ namespace AutoBattle
                 }
                 Console.Write(Environment.NewLine + Environment.NewLine);
             }
-            Console.Write(Environment.NewLine + Environment.NewLine);
+            Console.Write(Environment.NewLine);
         }
     }
 }
